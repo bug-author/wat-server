@@ -1,4 +1,9 @@
-import { Inject, Injectable, NotAcceptableException } from '@nestjs/common';
+import {
+  Inject,
+  Injectable,
+  InternalServerErrorException,
+  NotAcceptableException,
+} from '@nestjs/common';
 import { ethers } from 'ethers';
 import { WEBARCHIVE_ABI } from './abis';
 import { CreateArchiveDTO } from './create-archive-dto';
@@ -107,7 +112,9 @@ export class AppService {
         };
       } catch (error) {
         console.error('Error creating archive:', error);
-        return { message: 'An error occurred creating the archive.' };
+        throw new InternalServerErrorException(
+          'An error occurred creating the archive.',
+        );
       }
     }
 
